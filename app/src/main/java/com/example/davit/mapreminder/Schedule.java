@@ -486,7 +486,6 @@ public class Schedule extends AppCompatActivity {
                 finish();
             }
         }
-
     }
 
     private void showAlertDialog(String text) {

@@ -1,6 +1,5 @@
 package com.example.davit.mapreminder.service;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -66,6 +65,9 @@ public class MapReminderLocateService extends Service implements
     private float mAccelLast;
     private static boolean movementDetected = false;
 
+    // for altering request time accordingly to schedule
+    public static boolean scheduleTwoUntilTime = false;
+
     // TODO: 10-Mar-16 countOfAttemptsIn550
         private static int countOfAttemptsIn550;
         private static int countOfAttemptsIn1000;
@@ -89,7 +91,6 @@ public class MapReminderLocateService extends Service implements
 
         /** start Location update  */
         connectToGoogleApiClient();
-
 
         return START_STICKY;
     }
@@ -164,7 +165,7 @@ public class MapReminderLocateService extends Service implements
         LocationRequest request = LocationRequest.create();
         // TODO: set to PRIORITY_LOW_POWER remove log
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        Log.i("test", String.valueOf(REQUEST_TIME));
+        Log.i("test", "actual REQUEST TIME: " + String.valueOf(REQUEST_TIME));
         request.setInterval(REQUEST_TIME);  // ms 1000 = 1 seconds
         request.setFastestInterval(5 * 1000);
 
@@ -184,7 +185,7 @@ public class MapReminderLocateService extends Service implements
 
         // todo remove toast of seconds
         String t = String.valueOf(REQUEST_TIME / 1000);
-        Log.d("test", "Seconds: "+t);
+//        Log.d("test", "Seconds: "+t);
         Toast.makeText(getBaseContext(), "Seconds: " + t, Toast.LENGTH_SHORT).show();
 
         /** count the distance between current and target location */
@@ -308,10 +309,52 @@ public class MapReminderLocateService extends Service implements
                     reminders.get(0).getTargetCordLat(), reminders.get(0).getTargetCordLng());
             minDistance = Math.abs(distanceInMeterForFirstReminder - reminders.get(0).getDistance());
 
+            /****************  check for outdated reminders   *****************/
+            final Calendar calendar = Calendar.getInstance();
+            Long mDate = reminders.get(0).getFromDate();
+            Long mTime = reminders.get(0).getFromTime();
+            Long nDate = -1L;
+            Long nTime = -1L;
+            // set current date
+            Long cDate = getCurrentDateTime(calendar, "yyyy, MMM dd");
+            // set current time
+            Long cTime = getCurrentDateTime(calendar, "H:mm");
 
             for (Reminder reminder : reminders) {
                 double distanceInMeter = CalculationByDistance(location.getLatitude(), location.getLongitude(),
                         reminder.getTargetCordLat(), reminder.getTargetCordLng());
+
+                /****************  check for outdated reminders   *****************/
+                /******************************************************************/
+
+                // get schedules date and time from database
+                Long fromDate = reminder.getFromDate();
+                Long fromTime = reminder.getFromTime();
+
+                if( fromDate < mDate ){
+                    mDate = fromDate;
+                }
+                if( fromTime < mTime ){
+                    mTime = fromTime;
+                }
+                if( fromDate <= cDate ){
+                    if(nTime == -1){
+                        nTime = fromTime;
+                        nDate = fromDate;
+                    }else{
+                        if(fromTime < nTime){
+                            nTime = fromTime;
+                            nDate = fromDate;
+                        }
+                    }
+                }
+
+
+                /** check if reminders alarm schedule is not active right now set appropriate interval */
+
+
+                /********************************************************************/
+                /********************************************************************/
 
 
                 /** check if nearest reminder is very far, change request time */
@@ -325,7 +368,7 @@ public class MapReminderLocateService extends Service implements
 
                 // TODO: 15-Mar-16 remove log
                     Log.i("test", "minDistance after check = " + minDistance);
-//        // todo if min of(minDistance - reminder.getDistance()) think
+                // todo if min of(minDistance - reminder.getDistance()) think
 
                 /** Set notification */
                 setNotification(reminder, distanceInMeter);
@@ -341,21 +384,29 @@ public class MapReminderLocateService extends Service implements
              * 100 km/h    100000 - 3600000 -> 1m - 36 ms
              */
             // lets assume in 1s = 300m
-            if( minDistance >= 550 && minDistance <= 1150 ){
-                REQUEST_TIME = 10 * 1000;  // 10 sec
-                countOfAttemptsIn1000++;
-                countOfAttemptsIn550 = countOfAttemptsInLargeDistance = 0;
-
-            }else if( minDistance >= 0 && minDistance <= 550 ){
-                REQUEST_TIME = 5 * 1000;  // 5 sec
-                countOfAttemptsIn550++;
-                countOfAttemptsIn1000 = countOfAttemptsInLargeDistance = 0;
+            if(nTime == -1){
+                REQUEST_TIME = (int) ((mDate - cDate)/2 - 10000);
+            }else if( nTime > cTime ){
+                REQUEST_TIME = (int) ((nTime-cTime)/2 - 10000);
             }else{
+                if( minDistance >= 550 && minDistance <= 1150 ){
+                    REQUEST_TIME = 10 * 1000;  // 10 sec
+                    countOfAttemptsIn1000++;
+                    countOfAttemptsIn550 = countOfAttemptsInLargeDistance = 0;
+
+                }else if( minDistance >= 0 && minDistance <= 550 ){
+                    REQUEST_TIME = 5 * 1000;  // 5 sec
+                    countOfAttemptsIn550++;
+                    countOfAttemptsIn1000 = countOfAttemptsInLargeDistance = 0;
+                }else{
 //                REQUEST_TIME = (int) minDistance * 36/2;
-                REQUEST_TIME = (int) minDistance * 25;
-                countOfAttemptsInLargeDistance++;
-                countOfAttemptsIn550 = countOfAttemptsIn1000 = 0;
+                    REQUEST_TIME = (int) minDistance * 25;
+                    countOfAttemptsInLargeDistance++;
+                    countOfAttemptsIn550 = countOfAttemptsIn1000 = 0;
+                }
             }
+
+            Log.d("test", "REQUEST_TIME my check = "+REQUEST_TIME+"\n");
 
             if(countOfAttemptsIn550 == 1 || countOfAttemptsIn1000 == 1 || countOfAttemptsInLargeDistance == 1){
                 sensorMan.unregisterListener(this);
@@ -391,11 +442,14 @@ public class MapReminderLocateService extends Service implements
 //            }
 
 
-            Log.i("test", "countOfAttemptsIn550: " + countOfAttemptsIn550);
-            Log.i("test", "countOfAttemptsIn1000: " + countOfAttemptsIn1000);
-            Log.i("test", "countOfAttemptsInLargeDistance: " + countOfAttemptsInLargeDistance);
+//            Log.i("test", "countOfAttemptsIn550: " + countOfAttemptsIn550);
+//            Log.i("test", "countOfAttemptsIn1000: " + countOfAttemptsIn1000);
+//            Log.i("test", "countOfAttemptsInLargeDistance: " + countOfAttemptsInLargeDistance);
             Log.i("test", "REQUEST_TIME: "+REQUEST_TIME);
-            Log.i("test", "\n");
+//            Log.i("test", "\n");
+        }else{
+            disconnectFromGoogleApiClient();
+            stopSelf();
         }
 
         // todo find out why need 2 stop starts for changing actual request time
@@ -543,7 +597,7 @@ public class MapReminderLocateService extends Service implements
                 PendingIntent.getActivity(this, MY_UNIQUE_VALUE, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         notificBuilder.setContentIntent(pendingIntent);
 
-
+// // TODO: 29-Mar-16 remove comments
 //        /** create stack for back
 //         * The stack builder object will contain an artificial back stack for the
 //         * started Activity.
@@ -598,9 +652,9 @@ public class MapReminderLocateService extends Service implements
         Long toTime = reminder.getToTime();
         int scheduleOption = reminder.getScheduleOption();
 
+        /** check for outdated reminders */
         // check if reminder is out of date set it unchecked
         unsetOutdatedReminderOptionOne(reminder, cDate, cTime, toDate, toTime, scheduleOption);
-
         // check option 2 if all requirements are right set notification
         unsetOutdatedReminderOptionTwo(reminder, cDate, cTime, toDate, toTime, scheduleOption);
 
