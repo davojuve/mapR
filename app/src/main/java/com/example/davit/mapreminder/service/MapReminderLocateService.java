@@ -350,7 +350,7 @@ public class MapReminderLocateService extends Service implements
                 }
 
 
-                /** check if reminders alarm schedule is not active right now set appropriate interval */
+
 
 
                 /********************************************************************/
@@ -380,26 +380,24 @@ public class MapReminderLocateService extends Service implements
                 ReusableFunctions.sendResultToMainActivity(this, "update distanceToRadius");
             }
 
-            /**
-             * 100 km/h    100000 - 3600000 -> 1m - 36 ms
-             */
+            /** check if reminders alarm schedule is not active right now set appropriate interval */
+
             // lets assume in 1s = 300m
             if(nTime == -1){
                 REQUEST_TIME = (int) ((mDate - cDate)/2 - 10000);
             }else if( nTime > cTime ){
                 REQUEST_TIME = (int) ((nTime-cTime)/2 - 10000);
             }else{
+                /** 100 km/h    100000 - 3600000 -> 1m - 36 ms */
                 if( minDistance >= 550 && minDistance <= 1150 ){
                     REQUEST_TIME = 10 * 1000;  // 10 sec
                     countOfAttemptsIn1000++;
                     countOfAttemptsIn550 = countOfAttemptsInLargeDistance = 0;
-
                 }else if( minDistance >= 0 && minDistance <= 550 ){
                     REQUEST_TIME = 5 * 1000;  // 5 sec
                     countOfAttemptsIn550++;
                     countOfAttemptsIn1000 = countOfAttemptsInLargeDistance = 0;
                 }else{
-//                REQUEST_TIME = (int) minDistance * 36/2;
                     REQUEST_TIME = (int) minDistance * 25;
                     countOfAttemptsInLargeDistance++;
                     countOfAttemptsIn550 = countOfAttemptsIn1000 = 0;
