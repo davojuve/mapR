@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.davit.mapreminder.MainActivity"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:weightSum="5" >
+        <LinearLayout
+            android:focusableInTouchMode="true"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
+        <EditText
+            android:id="@+id/search_reminder"
+            android:hint="Search by Name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:layout_margin="1dp"
+            android:textAlignment="center"
+            android:textColor="@color/common_action_bar_splitter"
+            android:textColorHint="@color/common_action_bar_splitter"
+            android:background="@color/colorButton"
+            android:contentDescription="Search by name"/>
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="1dp"
+            android:src="@drawable/search"
+            android:elevation="10dp"
+            android:background="@color/colorButton"
+            android:onClick="filterReminders" />
+
+        <ImageButton
+            android:id="@+id/btn_create_reminder"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="1dp"
+            android:elevation="10dp"
+            android:src="@drawable/add_reminder"
+            android:scaleType="center"
+            android:background="@color/colorButton"
+            android:onClick="addReminder" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="10">
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9"
+            android:clickable="true"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Start"
+                android:onClick="startLocationUpdates"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Stop"
+                android:onClick="stopLocationUpdates"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

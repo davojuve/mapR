@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.davit.mapreminder.Schedule"
+    android:orientation="vertical"
+    android:weightSum="6">
+
+    <RelativeLayout
+        android:id="@+id/scheduleSection1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2.2">
+        <TextView
+            android:id="@+id/scheduleFrom2Description1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select from/to which Date and time to activate current reminder"
+            android:textSize="12sp"
+            android:textAlignment="center"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="10dp" />
+        <TextView
+            android:id="@+id/scheduleFrom1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="FROM"
+            android:layout_below="@+id/scheduleFrom2Description1" />
+
+        <LinearLayout
+            android:id="@+id/scheduleFromDatePlaceHolder1"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@+id/scheduleFrom1"
+            android:weightSum="4"
+            android:layout_marginBottom="10dp" >
+
+            <Button
+                android:id="@+id/scheduleBtnFromDate1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="18sp"
+                android:layout_weight="3"
+                android:onClick="scheduleBtnFromDateClickListener" />
+
+            <Button
+                android:id="@+id/scheduleBtnFromTime1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:onClick="scheduleBtnFromTimeClickListener" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/scheduleTo1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TO"
+            android:layout_below="@+id/scheduleFromDatePlaceHolder1" />
+
+        <LinearLayout
+            android:id="@+id/scheduleToPlaceHolder1"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@+id/scheduleTo1"
+            android:weightSum="4">
+
+            <Button
+                android:id="@+id/scheduleBtnToDate1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="18sp"
+                android:layout_weight="3"
+                android:onClick="scheduleBtnToDateClickListener"/>
+
+            <Button
+                android:id="@+id/scheduleBtnToTime1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:onClick="scheduleBtnToTimeClickListener"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#000000"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+
+    <!-- ****************  2  ******************-->
+    <RelativeLayout
+        android:id="@+id/scheduleSection2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2.2">
+        <TextView
+            android:id="@+id/scheduleFrom2Description2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select from/to Date and from/to time in every selected day when to activate current reminder"
+            android:textSize="12sp"
+            android:textAlignment="center"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="10dp" />
+        <TextView
+            android:id="@+id/scheduleFrom2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="FROM"
+            android:layout_below="@+id/scheduleFrom2Description2"/>
+
+        <LinearLayout
+            android:id="@+id/scheduleFromDatePlaceHolder2"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@+id/scheduleFrom2"
+            android:weightSum="4"
+            android:layout_marginBottom="10dp" >
+
+            <Button
+                android:id="@+id/scheduleBtnFromDate2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="18sp"
+                android:layout_weight="3"
+                android:onClick="scheduleBtnFromDateClickListener" />
+
+            <Button
+                android:id="@+id/scheduleBtnFromTime2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:onClick="scheduleBtnFromTimeClickListener"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/scheduleTo2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TO"
+            android:layout_below="@+id/scheduleFromDatePlaceHolder2" />
+
+        <LinearLayout
+            android:id="@+id/scheduleToPlaceHolder2"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@+id/scheduleTo2"
+            android:weightSum="4">
+
+            <Button
+                android:id="@+id/scheduleBtnToDate2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="18sp"
+                android:layout_weight="3"
+                android:onClick="scheduleBtnToDateClickListener"/>
+
+            <Button
+                android:id="@+id/scheduleBtnToTime2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:onClick="scheduleBtnToTimeClickListener"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!-- **************** 3 ******************-->
+    <RelativeLayout
+        android:id="@+id/scheduleSection3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.6">
+
+        <Button
+            android:id="@+id/scheduleBtnSwitchViews"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:text="Switch To Strategy Two"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:layout_alignParentTop="true"
+            android:onClick="toggleViews" />
+
+        <LinearLayout
+            android:id="@+id/scheduleBtnDistancePlaceHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/scheduleBtnSwitchViews"
+            android:layout_weight="2" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="15sp"
+                android:text="Distance in meters: " />
+            <EditText
+                android:id="@+id/scheduleDistance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="numberDecimal" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/scheduleBtnDistancePlaceHolder"
+            android:orientation="horizontal"
+            android:weightSum="2" >
+
+            <Button
+                android:id="@+id/scheduleBtnCancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="15sp"
+                android:text="Cancel"
+                android:layout_weight="1"
+                android:onClick="scheduleBtnCancelClickListener" />
+            <Button
+                android:id="@+id/scheduleBtnSave"
+                android:layout_width="0dp"
+                android:textSize="15sp"
+                android:text="Keep Changes"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="scheduleBtnSaveClickListener" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+
+</LinearLayout>

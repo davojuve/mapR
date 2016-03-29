@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">MapReminder</string>
+    <string name="title_activity_detail_reminder">Detail Reminder</string>
+    <string name="detailBtnEdit">Edit</string>
+    <string name="detailBtnBack">Back</string>
+    <string name="markerImageView">Marker info</string>
+    <string name="title_activity_activity_add_reminder">activity_add_reminder</string>
+    <string name="addReminderImageTitle">Select Image</string>
+    <string name="addReminderMarker">Set Marker on Map</string>
+    <string name="addReminderSchedule">Reminder Schedule</string>
+    <string name="addReminderNameFieldHint">Name of your reminder</string>
+    <string name="addReminderDescriptionHint">Enter a description of your reminder</string>
+    <string name="title_activity_schedule">Schedule</string>
+</resources>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".PopupSelectImage"
+    android:weightSum="7">
+
+    <TextView
+        android:id="@+id/popupImageSelectTitle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="Select an Image"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:gravity="center_horizontal|center_vertical" />
+    <View
+        android:id="@+id/popupImageUnderTitleLine"
+        android:background="#d0da0f2a"
+        android:layout_width="match_parent"
+        android:layout_height="2dp" />
+
+    <ListView
+        android:id="@+id/popupImageList"
+        android:layout_weight="6"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+
+    <!--<Button-->
+        <!--android:id="@+id/popupImageBtnSelect"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:textSize="18sp"-->
+        <!--android:text="Select"-->
+        <!--android:onClick="selectBtnClickListener"/>-->
+
+</LinearLayout>
