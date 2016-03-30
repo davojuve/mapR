@@ -66,7 +66,7 @@ public class MapReminderLocateService extends Service implements
     private static boolean movementDetected = false;
 
     // for altering request time accordingly to schedule
-    public static boolean scheduleTwoUntilTime = false;
+//    public static boolean scheduleTwoUntilTime = false;
 
     // TODO: 10-Mar-16 countOfAttemptsIn550
         private static int countOfAttemptsIn550;
@@ -340,11 +340,11 @@ public class MapReminderLocateService extends Service implements
                 if( fromDate <= cDate ){
                     if(nTime == -1){
                         nTime = fromTime;
-                        nDate = fromDate;
+//                        nDate = fromDate;
                     }else{
                         if(fromTime < nTime){
                             nTime = fromTime;
-                            nDate = fromDate;
+//                            nDate = fromDate;
                         }
                     }
                 }
@@ -384,9 +384,9 @@ public class MapReminderLocateService extends Service implements
 
             // lets assume in 1s = 300m
             if(nTime == -1){
-                REQUEST_TIME = (int) ((mDate - cDate)/2 - 10000);
+                REQUEST_TIME = (int) ((mDate - cDate)/2 - 5000);
             }else if( nTime > cTime ){
-                REQUEST_TIME = (int) ((nTime-cTime)/2 - 10000);
+                REQUEST_TIME = (int) ((nTime-cTime)/2 - 5000);
             }else{
                 /** 100 km/h    100000 - 3600000 -> 1m - 36 ms */
                 if( minDistance >= 550 && minDistance <= 1150 ){
