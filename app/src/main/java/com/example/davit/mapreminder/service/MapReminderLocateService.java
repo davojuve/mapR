@@ -164,7 +164,7 @@ public class MapReminderLocateService extends Service implements
         LocationRequest request = LocationRequest.create();
         // TODO: set to PRIORITY_LOW_POWER remove log
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        Log.i("test", String.valueOf(REQUEST_TIME));
+        Log.i("test", "REQUEST_TIME: "+String.valueOf(REQUEST_TIME));
         request.setInterval(REQUEST_TIME);  // ms 1000 = 1 seconds
         request.setFastestInterval(5 * 1000);
 
@@ -324,7 +324,7 @@ public class MapReminderLocateService extends Service implements
                 }
 
                 // TODO: 15-Mar-16 remove log
-                    Log.i("test", "minDistance after check = " + minDistance);
+//                    Log.i("test", "minDistance after check = " + minDistance);
 //        // todo if min of(minDistance - reminder.getDistance()) think
 
                 /** Set notification */
@@ -391,11 +391,11 @@ public class MapReminderLocateService extends Service implements
 //            }
 
 
-            Log.i("test", "countOfAttemptsIn550: " + countOfAttemptsIn550);
-            Log.i("test", "countOfAttemptsIn1000: " + countOfAttemptsIn1000);
-            Log.i("test", "countOfAttemptsInLargeDistance: " + countOfAttemptsInLargeDistance);
-            Log.i("test", "REQUEST_TIME: "+REQUEST_TIME);
-            Log.i("test", "\n");
+//            Log.i("test", "countOfAttemptsIn550: " + countOfAttemptsIn550);
+//            Log.i("test", "countOfAttemptsIn1000: " + countOfAttemptsIn1000);
+//            Log.i("test", "countOfAttemptsInLargeDistance: " + countOfAttemptsInLargeDistance);
+//            Log.i("test", "REQUEST_TIME: "+REQUEST_TIME);
+//            Log.i("test", "\n");
         }
 
         // todo find out why need 2 stop starts for changing actual request time
@@ -405,7 +405,7 @@ public class MapReminderLocateService extends Service implements
 //        Log.i("test", "REQUEST_TIME after check= " + REQUEST_TIME);
 
         /** disconnect and connect for changing REQUEST_TIME */
-        if (googleApiClient != null && onLocateNum ==1) {
+        if (googleApiClient != null && onLocateNum == 1) {
             disconnectFromGoogleApiClient();
             connectToGoogleApiClient();
         }
