@@ -151,17 +151,4 @@ public class ReminderArrayAdapter extends ArrayAdapter<Reminder> {
         TextView distanceToReminderRadius;
         CheckBox reminderIsActive;
     }
-
-
-    // TODO: 09-Mar-16 refactor make usable, it's also used in service (remove)
-    /** for refreshing MainActivity if checkbox status has changed */
-//    public void sendResultToMainActivity(String message) {
-//        LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(null);
-//
-//        Intent intent = new Intent(MapReminderConstants.CHECKBOX_UPDATE);
-//        if(message != null)
-//            intent.putExtra(MapReminderConstants.SERVICE_MESSAGE, message);
-//        broadcaster.sendBroadcast(intent);
-//    }
-
 }

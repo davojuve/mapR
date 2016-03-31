@@ -40,8 +40,6 @@ import java.util.List;
 public class MapReminderLocateService extends Service implements
         GoogleApiClient.ConnectionCallbacks,
         SensorEventListener,
-//        LocationListener,
-//        SensorEventListener,
         GoogleApiClient.OnConnectionFailedListener {
 
     private ReminderDataSource dataSource;
@@ -89,8 +87,8 @@ public class MapReminderLocateService extends Service implements
 
         /** start Location update  */
         connectToGoogleApiClient();
-
-
+// TODO: 31-Mar-16 remove toast
+        Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show();
         return START_STICKY;
     }
 
@@ -148,6 +146,8 @@ public class MapReminderLocateService extends Service implements
      */
     @Override
     public void onConnected(Bundle bundle) {
+        // TODO: 31-Mar-16 remove toast API started
+        Toast.makeText(this, "API started", Toast.LENGTH_SHORT).show();
         mListener = new LocationListener() {
             /**
              * will be called each time we send out request
@@ -164,7 +164,7 @@ public class MapReminderLocateService extends Service implements
         LocationRequest request = LocationRequest.create();
         // TODO: set to PRIORITY_LOW_POWER remove log
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        Log.i("test", "REQUEST_TIME: "+String.valueOf(REQUEST_TIME));
+        Log.i("test", "REQUEST_TIME (before setting): "+String.valueOf(REQUEST_TIME));
         request.setInterval(REQUEST_TIME);  // ms 1000 = 1 seconds
         request.setFastestInterval(5 * 1000);
 
@@ -184,7 +184,7 @@ public class MapReminderLocateService extends Service implements
 
         // todo remove toast of seconds
         String t = String.valueOf(REQUEST_TIME / 1000);
-        Log.d("test", "Seconds: "+t);
+        Log.i("test", "Seconds: "+t);
         Toast.makeText(getBaseContext(), "Seconds: " + t, Toast.LENGTH_SHORT).show();
 
         /** count the distance between current and target location */
@@ -342,7 +342,7 @@ public class MapReminderLocateService extends Service implements
              */
             // lets assume in 1s = 300m
             if( minDistance >= 550 && minDistance <= 1150 ){
-                REQUEST_TIME = 10 * 1000;  // 10 sec
+                REQUEST_TIME = 7 * 1000;  // 7 sec
                 countOfAttemptsIn1000++;
                 countOfAttemptsIn550 = countOfAttemptsInLargeDistance = 0;
 
@@ -351,8 +351,7 @@ public class MapReminderLocateService extends Service implements
                 countOfAttemptsIn550++;
                 countOfAttemptsIn1000 = countOfAttemptsInLargeDistance = 0;
             }else{
-//                REQUEST_TIME = (int) minDistance * 36/2;
-                REQUEST_TIME = (int) minDistance * 25;
+                REQUEST_TIME = (int) minDistance * 36/2;
                 countOfAttemptsInLargeDistance++;
                 countOfAttemptsIn550 = countOfAttemptsIn1000 = 0;
             }
@@ -364,21 +363,21 @@ public class MapReminderLocateService extends Service implements
             // TODO: 10-Mar-16 write algorithm for sleeping longer
             /** if in 3 min 20s we are still in 550m range set REQUEST_TIME to 8 hours and register movement listener */
             if(countOfAttemptsIn550 >= 60 ){ // 60 approximately = 3min 20s
-                REQUEST_TIME = 8*60 * 60 * 1000; // 60*60*1000 = 8 hour
+                REQUEST_TIME = 8 * 60 * 60 * 1000; // 60*60*1000 = 8 hour
                 // TODO: 15-Mar-16 move sensor registration to appropriate place
                 sensorMan.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
             }
 
             /** if in 5 min 10s we are still in 1000m range set REQUEST_TIME to 8 hours and register movement listener */
             if(countOfAttemptsIn1000 >= 60 ){ // 60 approximately = 5min 10s
-                REQUEST_TIME = 8*60 * 60 * 1000; // 60*60*1000 = 8 hour
+                REQUEST_TIME = 8 * 60 * 60 * 1000; // 60*60*1000 = 8 hour
                 // TODO: 15-Mar-16 move sensor registration to appropriate place
                 sensorMan.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
             }
 
             /** if in 5 min 10s we are still in >1000m range set REQUEST_TIME to 8 hours and register movement listener */
             if(countOfAttemptsInLargeDistance >= 30 ){ // depends on distance
-                REQUEST_TIME = 8*60 * 60 * 1000; // 60*60*1000 = 8 hour
+                REQUEST_TIME = 8 * 60 * 60 * 1000; // 60*60*1000 = 8 hour
                 // TODO: 15-Mar-16 move sensor registration to appropriate place
                 sensorMan.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
             }
@@ -433,14 +432,14 @@ public class MapReminderLocateService extends Service implements
 
         if (googleApiClient == null) {
 
-            // todo remove toast
-            Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show();
             googleApiClient = new GoogleApiClient.Builder(this)
                     .addApi(LocationServices.API)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .build();
             googleApiClient.connect();
+            // todo remove toast
+//            Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show();
         }
 
         /** for movement detection */
@@ -469,6 +468,7 @@ public class MapReminderLocateService extends Service implements
         googleApiClient.disconnect();
         googleApiClient = null;
         mListener=null;
+        Toast.makeText(this, "API stopped", Toast.LENGTH_SHORT).show();
     }
 
     /** Determine Distance */
