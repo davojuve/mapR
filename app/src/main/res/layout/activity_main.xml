@@ -61,6 +61,14 @@
             android:layout_height="0dp"
             android:layout_weight="9"
             android:clickable="true"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Read Logs"
+            android:id="@+id/btnReadLogs"
+            android:onClick="btnReadLogsOnClickListener"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"

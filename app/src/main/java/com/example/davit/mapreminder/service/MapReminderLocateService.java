@@ -30,6 +30,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -85,9 +88,12 @@ public class MapReminderLocateService extends Service implements
         dataSource = new ReminderDataSource(this);
         dataSource.open();
 
+        // TODO: 01-Apr-16 put save Log to the right place
+        saveLog("Service started ");
+
         /** start Location update  */
         connectToGoogleApiClient();
-// TODO: 31-Mar-16 remove toast
+    // TODO: 31-Mar-16 remove toast
         Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show();
         return START_STICKY;
     }
@@ -184,7 +190,7 @@ public class MapReminderLocateService extends Service implements
 
         // todo remove toast of seconds
         String t = String.valueOf(REQUEST_TIME / 1000);
-        Log.i("test", "Seconds: "+t);
+        Log.i("test", "Seconds: " + t);
         Toast.makeText(getBaseContext(), "Seconds: " + t, Toast.LENGTH_SHORT).show();
 
         /** count the distance between current and target location */
@@ -706,6 +712,30 @@ public class MapReminderLocateService extends Service implements
 
     }
 
+    /** Method to save logs */
+    public void saveLog(String text) {
+
+        final Calendar calendar = Calendar.getInstance();
+
+        String timeFormat = "dd.MMM.yyyy, H:mm:s";
+        SimpleDateFormat sdf = new SimpleDateFormat( timeFormat );
+        String dateString = sdf.format(calendar.getTime());
+
+        String FILENAME = "mapReminder_log.txt";
+        String data = text + " "+ dateString + "\n";
+
+
+        // write to file
+        FileOutputStream outputStream = null;
+        try {
+            outputStream = openFileOutput(FILENAME, Context.MODE_APPEND);
+            outputStream.write(data.getBytes());
+            outputStream.close();
+            Toast.makeText(this, "Data was saved", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 

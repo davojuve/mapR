@@ -525,4 +525,9 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
     }
 
+    /** Read logs btn was clicked */
+    public void btnReadLogsOnClickListener(View view) {
+        Intent readLogs = new Intent(this, ReadLogs.class);
+        startActivity(readLogs);
+    }
 }

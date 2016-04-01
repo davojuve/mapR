@@ -10,11 +10,12 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
     <!-- hopefully for preventing prevent phone from sleep permission -->
-    <!-- in header xmlns:tools="http://schemas.android.com/tools"-->
-    <!--<uses-permission android:name="android.permission.WAKE_LOCK" tools:node="remove" />-->
+    <!-- in header xmlns:tools="http://schemas.android.com/tools" -->
+    <!-- <uses-permission android:name="android.permission.WAKE_LOCK" tools:node="remove" /> -->
+
 
     <!-- for starting service after reboot -->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <!-- For my location -->
     <!-- FOR gps -->
@@ -27,10 +28,7 @@
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
 
     <!-- For Determining is internet connection available -->
-    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
-
-
-
+    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -42,6 +40,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
@@ -83,19 +82,18 @@
             android:name=".PopupSelectImage"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.CustomThemeForPopup" />
-
         <activity
             android:name=".SetMarkerOnMap"
             android:screenOrientation="portrait" />
 
         <service android:name=".service.MapReminderLocateService" />
-        <!--<service android:name="com.example.davit.mapreminder.service.MapReminderLocateService" />-->
+        <!-- <service android:name="com.example.davit.mapreminder.service.MapReminderLocateService" /> -->
 
         <activity
             android:name=".Schedule"
             android:screenOrientation="portrait" />
-
         <activity android:name=".NotificationActivity" />
+        <activity android:name=".ReadLogs"></activity>
     </application>
 
 </manifest>
