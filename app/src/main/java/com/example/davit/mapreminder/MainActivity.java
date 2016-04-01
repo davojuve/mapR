@@ -32,6 +32,11 @@ import com.example.davit.mapreminder.service.MapReminderLocateService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -530,4 +535,20 @@ public class MainActivity extends AppCompatActivity {
         Intent readLogs = new Intent(this, ReadLogs.class);
         startActivity(readLogs);
     }
+
+    /** Clear logs btn was clicked */
+    public void btnClearLogsOnClickListener(View view) {
+        PrintWriter writer = null;
+        File f = getFilesDir();
+        String path = f.getAbsolutePath();
+        try {
+            writer = new PrintWriter(path+File.separator+"mapReminder_log.txt");
+            writer.print("");
+            writer.close();
+            Toast.makeText(this, "File was successfully cleared", Toast.LENGTH_SHORT).show();
+        } catch (FileNotFoundException e) {
+            Toast.makeText(this, "Nothing to clear", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
