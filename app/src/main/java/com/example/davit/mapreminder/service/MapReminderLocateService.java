@@ -118,6 +118,10 @@ public class MapReminderLocateService extends Service implements
         super.onDestroy();
         // todo remove toast
         Toast.makeText(this, "Service Terminated", Toast.LENGTH_SHORT).show();
+
+        // TODO: 01-Apr-16 put save Log to the right place
+        saveLog("Service Terminated ");
+
         REQUEST_TIME = 10000;
 
         /** stop Location update  */
@@ -154,6 +158,7 @@ public class MapReminderLocateService extends Service implements
     public void onConnected(Bundle bundle) {
         // TODO: 31-Mar-16 remove toast API started
         Toast.makeText(this, "API started", Toast.LENGTH_SHORT).show();
+
         mListener = new LocationListener() {
             /**
              * will be called each time we send out request
@@ -192,6 +197,8 @@ public class MapReminderLocateService extends Service implements
         String t = String.valueOf(REQUEST_TIME / 1000);
         Log.i("test", "Seconds: " + t);
         Toast.makeText(getBaseContext(), "Seconds: " + t, Toast.LENGTH_SHORT).show();
+        // TODO: 01-Apr-16 put save Log to the right place
+        saveLog("Get Location ( Time: " + t + "sec )");
 
         /** count the distance between current and target location */
         if (dataSource == null) {
@@ -323,6 +330,9 @@ public class MapReminderLocateService extends Service implements
                 /** check if nearest reminder is very far, change request time */
                 double distanceToReminderRadius = distanceInMeter-reminder.getDistance();
 
+                // TODO: 01-Apr-16 put save Log to the right place
+                saveLog("Distance To "+reminder.getReminderName()+": "+ String.valueOf(distanceToReminderRadius));
+
                 dataSource.updateDistanceToReminderRadius(distanceToReminderRadius, reminder.getId());
 
                 if( Math.abs(distanceToReminderRadius) < minDistance ){
@@ -444,8 +454,8 @@ public class MapReminderLocateService extends Service implements
                     .addOnConnectionFailedListener(this)
                     .build();
             googleApiClient.connect();
-            // todo remove toast
-//            Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show();
+            // TODO: 01-Apr-16 put save Log to the right place
+            saveLog("Connected to Google API");
         }
 
         /** for movement detection */
@@ -473,8 +483,9 @@ public class MapReminderLocateService extends Service implements
         googleApiClient.unregisterConnectionFailedListener(this);
         googleApiClient.disconnect();
         googleApiClient = null;
-        mListener=null;
-        Toast.makeText(this, "API stopped", Toast.LENGTH_SHORT).show();
+        mListener = null;
+        // TODO: 01-Apr-16 put save Log to the right place
+        saveLog("Disconnected from Google API");
     }
 
     /** Determine Distance */
@@ -722,7 +733,7 @@ public class MapReminderLocateService extends Service implements
         String dateString = sdf.format(calendar.getTime());
 
         String FILENAME = "mapReminder_log.txt";
-        String data = text + " "+ dateString + "\n";
+        String data = text + "  "+ dateString + " \n\n";
 
 
         // write to file
@@ -731,7 +742,6 @@ public class MapReminderLocateService extends Service implements
             outputStream = openFileOutput(FILENAME, Context.MODE_APPEND);
             outputStream.write(data.getBytes());
             outputStream.close();
-            Toast.makeText(this, "Data was saved", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
         }
