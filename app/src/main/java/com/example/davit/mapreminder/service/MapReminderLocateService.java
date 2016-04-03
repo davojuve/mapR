@@ -747,6 +747,4 @@ public class MapReminderLocateService extends Service implements
         }
     }
 
-
-
 } // End of My Service
